@@ -20,7 +20,7 @@
         <h1 class="name">Jo Mary Ynna <br />Albasin</h1>
         <p class="title">AI-Augmented Developer</p>
         <p class="subtitle">Lead Quality Engineer</p>
-        <button class="print-btn" onclick="window.print()" aria-label="Print resume or save as PDF">
+        <button class="print-btn" id="print-btn" type="button" aria-label="Print resume or save as PDF">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8" rx="1"/></svg>
           <span>Print / Save as PDF</span>
         </button>
@@ -455,6 +455,33 @@
         });
         document.addEventListener('keydown', function (e) {
           if (e.key === 'Escape' && !lightbox.hidden) close();
+        });
+      })();
+
+      (function () {
+        var btn = document.getElementById('print-btn');
+        if (!btn) return;
+
+        function isInAppBrowser() {
+          var ua = navigator.userAgent || '';
+          return /FBAN|FBAV|Instagram|Line|Twitter|TikTok|Snapchat|Pinterest|LinkedInApp/i.test(ua);
+        }
+
+        btn.addEventListener('click', function () {
+          if (typeof window.print !== 'function') {
+            alert('Print is not supported in this browser. Please open this page in your default browser and try again.');
+            return;
+          }
+          if (isInAppBrowser()) {
+            alert('To save as PDF, please open this page in your default browser (Safari / Chrome) using the in-app menu, then tap Print again.');
+          }
+          setTimeout(function () {
+            try {
+              window.print();
+            } catch (err) {
+              alert('Your browser blocked the print dialog. Use the browser menu → Print, or Share → Save to PDF.');
+            }
+          }, 60);
         });
       })();
     </script>
