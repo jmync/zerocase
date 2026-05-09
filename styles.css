@@ -613,7 +613,6 @@ ul {
 /* ---------- Projects ---------- */
 .section-intro {
   margin: -8px 0 22px;
-  max-width: 720px;
   color: var(--ink-mute);
   font-size: 13.5px;
   line-height: 1.55;
