@@ -611,6 +611,14 @@ ul {
 }
 
 /* ---------- Projects ---------- */
+.section-intro {
+  margin: -8px 0 22px;
+  max-width: 720px;
+  color: var(--ink-mute);
+  font-size: 13.5px;
+  line-height: 1.55;
+}
+
 .project-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -875,7 +883,8 @@ ul {
       "summary    summary"
       "skills     education"
       "experience experience"
-      "projects   projects";
+      "projects   projects"
+      "personal   personal";
     gap: 8px 16px;
     background: white !important;
     width: 100%;
@@ -892,6 +901,7 @@ ul {
   .content > .block:nth-of-type(1) { grid-area: summary; }
   .content > .block:nth-of-type(2) { grid-area: experience; }
   .content > .block:nth-of-type(3) { grid-area: projects; }
+  .content > .block:nth-of-type(4) { grid-area: personal; }
 
   /* Header: photo on left, identity vertically centered next to it */
   .profile {
@@ -1186,6 +1196,15 @@ ul {
   }
 
   /* Projects: 3-col grid */
+  .section-intro {
+    font-size: 8.5pt;
+    color: #4b5563 !important;
+    line-height: 1.4;
+    margin: -2px 0 6px;
+    max-width: none;
+    page-break-after: avoid;
+  }
+
   .project-grid {
     grid-template-columns: repeat(3, 1fr) !important;
     gap: 6px;
