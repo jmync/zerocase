@@ -1,0 +1,4 @@
+out/
+# raw captures and source media: large, and include shots that are not meant to be public; they stay local
+shots/
+media/
