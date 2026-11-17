@@ -244,6 +244,14 @@ function split(el) {
     }
   };
   walk(el);
+  // punctuation right after the selected word stays on its line ("crown?" never breaks before the "?")
+  $$('em', el).forEach((em) => {
+    const nx = em.nextSibling;
+    if (nx && nx.nodeType === 1 && nx.classList.contains('w') && /^[.,!?;:…’”)]+$/.test(nx.textContent)) {
+      const g = document.createElement('span'); g.style.whiteSpace = 'nowrap';
+      em.replaceWith(g); g.append(em, nx);
+    }
+  });
   // the selected word gets the site's corner handles
   $$('em', el).forEach((em) => ['tl', 'tr', 'bl', 'br'].forEach((k) => em.appendChild(h(`<b class="h ${k}"></b>`))));
 }
@@ -366,21 +374,21 @@ const SPECS_BEATS = [
 const NK = 'shots/nkmacb/';
 const NKMA_BEATS = [
   { type: 'card', dur: BAR, n: '03', kick: 'Project 03 / 03 · 2026', logo: NK + '30-badge-logo.png',
-    title: 'NKMACB', desc: 'The NKMA Chorus Battle: <b>a website and live host dashboards</b> for a Smule singing competition.',
+    title: 'NKMACB', desc: 'The NKMA Chorus Battle’s whole show: <b>a website, a live bracket and the host’s stage controls</b> for a Smule singing competition.',
     stat: ['2 months', 'of live competitions'], chips: ['React', 'Vite', 'Express', 'NocoDB', 'Playwright'] },
   { type: 'clips', dur: BAR * 2, video: 'media/nkmacb/site.mp4', segs: [
-    { from: 7.2, k: 'The website', t: 'Break the <em>seal</em> to enter.', s: 'The site waits behind a pulsing seal over a music video. Click it, and the battle opens.' },
+    { from: 7.2, k: 'The website', t: 'A seal that beats with the <em>music</em>.', s: 'The site opens behind a seal that glows to the bass of a music video. Click it: the panda yelps, and the battle opens.' },
   ] },
   { type: 'hero', dur: BAR * 1.5, src: NK + '08-live-bracket.png', url: 'nkma live · semi-finals',
-    k: 'CB Live', t: 'The whole battle, live for <em>viewers</em>.', s: 'A public bracket with countdowns and results, plus a staff console and a judging panel.',
-    chips: ['36 teams', '5 stages', '5 judges', '100-point rubric'],
+    k: 'CB Live', t: 'Every round, <em>live</em>.', s: '36 teams through five stages, scored by five judges on a 100-point rubric, with countdowns and results as they land.',
+    chips: ['Live bracket', 'Judging panel', 'Staff console', 'Discord alerts'],
     zoom: { at: 1.3, fx: 0.32, fy: 0.36, s: 1.55, cx: 1250, cy: 560 } },
   // The real Finals reveal, recorded on host control (record.js reveal) with the official result: the board, then the
   // scores climbing to the music (quickened), then the crown landing on the winner.
   { type: 'clips', dur: BAR * 6, video: 'media/nkmacb/reveal.mp4', segs: [
-    { from: 0.6, len: 2.4, k: 'Host control · Finals', t: 'Who will take the <em>crown</em>?', s: 'The finale ran live on stream from host control, the two finalists face to face.' },
-    { from: 9.2, len: 7.2, rate: 1.4, k: 'The reveal', t: 'Scores climb to the <em>music</em>.', s: 'Both totals rise through the song’s last build; one stops, the other keeps going.' },
-    { from: 19.6, len: 4.8, hit: 0.35, k: 'Crowned', t: 'The crown lands on the <em>winner</em>.', s: 'Kurezee 97.50 over TN🔥C 94.20: the official Finals result, revealed on the final chorus.' },
+    { from: 0.6, len: 2.4, k: 'Finals night', t: 'Who takes the <em>crown</em>?', s: 'Two finalists, one board, streamed live. The host presses one button and the music takes over.' },
+    { from: 9.2, len: 7.2, rate: 1.4, k: 'The reveal', t: 'Cut to the <em>beat</em>.', s: 'The reveal is timed to its song: both scores climb through the last build, and nothing can pause it.' },
+    { from: 19.6, len: 4.8, hit: 0.35, k: 'Crowned', t: 'Kurezee takes the <em>crown</em>.', s: 'The crown lands on the final chorus: 97.50 to 94.20, the official Finals result.' },
   ] },
 ];
 
