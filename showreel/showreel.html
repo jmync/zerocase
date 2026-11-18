@@ -383,6 +383,15 @@ const NKMA_BEATS = [
     k: 'CB Live', t: 'Every round, <em>live</em>.', s: '36 teams through five stages, scored by five judges on a 100-point rubric, with countdowns and results as they land.',
     chips: ['Live bracket', 'Judging panel', 'Staff console', 'Discord alerts'],
     zoom: { at: 1.3, fx: 0.32, fy: 0.36, s: 1.55, cx: 1250, cy: 560 } },
+  // The judges portal on the real Group Clash, recorded live with the browser answering its API (record.js judging):
+  // the dashboard, the eight matchups, a "Guest Judge" scoring Kurezee on the rubric and submitting, then all 16 ranked.
+  { type: 'clips', dur: BAR * 6, video: 'media/nkmacb/judging.mp4', segs: [
+    { from: 0.6, len: 2.4, rate: 1.6, zoom: { s: 1.15, fx: 0.45, fy: 0.4 }, k: 'Judges portal', t: 'Judging week, at a <em>glance</em>.', s: 'Each judge gets their own panel: entries left, averages, the spread of their scores and a clock to the deadline.' },
+    { from: 8.1, len: 2.4, rate: 1.9, zoom: { s: 1.25, fx: 0.4, fy: 0.5 }, k: 'Group Clash', t: 'Sixteen teams, eight <em>matchups</em>.', s: 'The real Group Clash, paired in their groups by the artist they drew. Kurezee meets 恋B2 on Ado.' },
+    { from: 15.0, len: 4.8, rate: 2, zoom: { s: 1.6, fx: 0.5, fy: 0.4 }, k: 'Scoring', t: 'Nine marks, one <em>total</em>.', s: 'Vocals, blend, pitch, timing, harmony, battle vibe, emotion, impression and recording, adding up to 100 as the judge goes.' },
+    { from: 26.0, len: 2.4, rate: 1.5, zoom: { s: 1.8, fx: 0.5, fy: 0.45 }, k: 'Submit', t: 'Critique, then <em>submit</em>.', s: 'From the Group Clash on, every score needs a written critique, and one last look at the total before it’s sent.' },
+    { from: 33.6, len: 2.4, rate: 1.2, zoom: { s: 1.2, fx: 0.55, fy: 0.3 }, k: 'My Scores', t: 'All sixteen, <em>ranked</em>.', s: 'Every team at its real Group Clash average. Kurezee tops it, as they did on the night (98.4).' },
+  ] },
   // The real Finals reveal, recorded on host control (record.js reveal) with the official result: the board, then the
   // scores climbing to the music (quickened), then the crown landing on the winner.
   { type: 'clips', dur: BAR * 6, video: 'media/nkmacb/reveal.mp4', segs: [
@@ -620,6 +629,14 @@ const BUILD = {
     return { el, cues, render(t, d) {
       const inn = tw(t, 0, 0.8, E.out5), k = segAt(clamp(t, 0, d - 0.001)), lt = t - starts[k];
       const bump = k > 0 ? 1 - tw(lt, 0, 0.35, E.out) : 0;
+      // a cut's `zoom` { s, fx, fy } eases into that point of the video (fractions), keeping the frame filled
+      const z = b.segs[k].zoom;
+      if (z) {
+        const sc = lerp(1, z.s, tw(lt, 0.15, 0.95, E.inOut));
+        const tx = clamp(600 - sc * z.fx * 1200, 1200 - sc * 1200, 0), ty = clamp(337.5 - sc * z.fy * 675, 675 - sc * 675, 0);
+        v.style.transformOrigin = '0 0';
+        v.style.transform = `translate(${tx.toFixed(1)}px, ${ty.toFixed(1)}px) scale(${sc.toFixed(4)})`;
+      } else v.style.transform = 'none';
       frame.style.transform = `perspective(2200px) translate3d(${lerp(240, 0, inn).toFixed(1)}px,0,0) rotateY(${(lerp(-20, -5, inn) + Math.sin(t * 0.6) * 1.5).toFixed(2)}deg) scale(${(lerp(0.94, 1, inn) + bump * 0.025).toFixed(4)})`;
       frame.style.opacity = inn;
       caps.forEach((c, i) => {
